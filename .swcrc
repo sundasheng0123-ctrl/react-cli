@@ -1,0 +1,174 @@
+{
+  // ========== $schema: JSON Schema 验证 ==========
+  // 提供配置文件的智能提示和验证
+  "$schema": "https://json.schemastore.org/swcrc",
+
+  // ========== jsc: JavaScript/TypeScript 编译器核心配置 ==========
+  "jsc": {
+    // ----- parser: 源代码解析器配置 -----
+    "parser": {
+      // syntax: 解析器类型
+      // "ecmascript": 解析纯 JavaScript
+      // "typescript": 解析 TypeScript（也支持 JavaScript）
+      "syntax": "typescript",
+
+      // tsx: 是否启用 TSX/JSX 语法
+      // true: 支持 <Component /> 语法
+      "tsx": true,
+
+      // decorators: 是否启用装饰器语法
+      // true: 支持 @decorator 语法
+      "decorators": true,
+
+      // dynamicImport: 是否启用动态导入
+      // true: 支持 import('./module') 语法
+      "dynamicImport": true
+    },
+
+    // ----- transform: 代码转换配置 -----
+    "transform": {
+      // react: React/JSX 转换配置
+      "react": {
+        // runtime: JSX 运行时模式
+        // "automatic": React 17+ 新 JSX 转换，无需 import React
+        // "classic": 传统模式，需要 import React from 'react'
+        "runtime": "automatic",
+
+        // development: 开发模式
+        // true: 添加调试信息（__source, __self）
+        "development": false,
+
+        // refresh: React Fast Refresh 支持
+        // true: 启用热更新（需配合 @pmmmwh/react-refresh-webpack-plugin）
+        "refresh": false,
+
+        // throwIfNamespace: 遇到命名空间标签时是否抛错
+        // true: <xml:foo /> 会报错
+        "throwIfNamespace": true,
+
+        // importSource: JSX 运行时的导入源
+        // 默认 "react"，可改为 "preact" 等
+        "importSource": "react"
+      },
+
+      // legacyDecorator: 使用旧版装饰器语法
+      // true: 使用 TypeScript/Babel 的旧版装饰器
+      "legacyDecorator": true,
+
+      // decoratorMetadata: 装饰器元数据
+      // true: 生成设计时类型元数据（需配合 reflect-metadata）
+      "decoratorMetadata": true
+    },
+
+    // ----- target: 编译目标 -----
+    // 指定输出的 ECMAScript 版本
+    // 可选: "es3", "es5", "es2015"~"es2022", "esnext"
+    "target": "es5",
+
+    // ----- loose: 宽松模式 -----
+    // true: 生成更简洁但可能不完全符合规范的代码
+    // false: 严格遵循 ECMAScript 规范
+    "loose": false,
+
+    // ----- externalHelpers: 外部辅助函数 -----
+    // true: 从 @swc/helpers 导入辅助函数（减少重复代码）
+    // false: 内联辅助函数到每个文件
+    "externalHelpers": false,
+
+    // ----- keepClassNames: 保留类名 -----
+    // true: 压缩时保留原始类名（对调试和反射有用）
+    "keepClassNames": true,
+
+    // ----- baseUrl 和 paths: 路径别名 -----
+    // 配合 tsconfig.json 的路径映射
+    // "baseUrl": ".",
+    // "paths": {
+    //   "@/*": ["src/*"]
+    // }
+  },
+
+  // ========== module: 模块系统配置 ==========
+  "module": {
+    // type: 输出的模块格式
+    // "es6": ES Modules (import/export)
+    // "commonjs": CommonJS (require/module.exports)
+    // "umd": UMD 格式
+    // "amd": AMD 格式
+    // "nodenext": Node.js ESM
+    "type": "es6",
+
+    // strict: 严格模式
+    // true: 输出 "use strict"
+    "strict": true,
+
+    // lazy: 懒加载 CommonJS 模块
+    // false: 不启用
+    "lazy": false,
+
+    // noInterop: 禁用 ES/CJS 互操作
+    // false: 保持互操作性
+    "noInterop": false
+  },
+
+  // ========== minify: 压缩配置 ==========
+  // 通常由 webpack 的 TerserPlugin 或 swc-minify 处理
+  // "minify": false,
+
+  // ========== sourceMaps: 源码映射 ==========
+  // true: 生成 source map
+  // "inline": 内联 source map
+  // false: 不生成
+  "sourceMaps": true,
+
+  // ========== env: 环境配置（类似 @babel/preset-env）==========
+  // 根据目标环境自动转换和添加 polyfill
+  // "env": {
+  //   // targets: 目标浏览器/环境
+  //   "targets": {
+  //     "chrome": "80",
+  //     "firefox": "78",
+  //     "safari": "14",
+  //     "edge": "88"
+  //   },
+  //   // mode: polyfill 模式
+  //   // "usage": 按需引入
+  //   // "entry": 入口处全量引入
+  //   "mode": "usage",
+  //   // coreJs: core-js 版本
+  //   "coreJs": "3.30"
+  // },
+
+  // ========== isModule: 是否为 ES 模块 ==========
+  // true: 作为 ES 模块处理
+  // false: 作为脚本处理
+  // "unknown": 自动检测
+  "isModule": true
+}
+
+// "minify": {
+//       // ----- compress: 代码压缩选项 -----
+//       "compress": {
+//         "unused": true,            // 移除未使用的变量和函数
+//         "dead_code": true,         // 移除不可达代码
+//         "drop_console": false,     // 移除 console.* 调用
+//         "drop_debugger": true,     // 移除 debugger 语句
+//         "pure_funcs": [],          // 标记为纯函数的调用可被移除，如 ["console.log"]
+//         "passes": 2,               // 压缩遍历次数，越多压缩越好但越慢
+//         "conditionals": true,      // 优化条件表达式
+//         "comparisons": true,       // 优化比较运算
+//         "evaluate": true,          // 计算常量表达式
+//         "booleans": true,          // 优化布尔表达式
+//         "loops": true,             // 优化循环
+//         "if_return": true,         // 优化 if/return 语句
+//         "join_vars": true,         // 合并连续的 var 声明
+//         "collapse_vars": true,     // 折叠单次使用的变量
+//         "reduce_vars": true,       // 优化变量赋值
+//         "inline": true,            // 内联简单函数
+//         "side_effects": true,      // 移除无副作用的代码
+//         "keep_classnames": false,  // 保留类名
+//         "keep_fnames": false,      // 保留函数名
+//         "keep_infinity": false,    // 保留 Infinity（不转为 1/0）
+//         "negate_iife": true,       // 优化立即执行函数
+//         "sequences": true,         // 合并连续语句为逗号表达式
+//         "defaults": true           // 使用默认压缩选项
+//       },
