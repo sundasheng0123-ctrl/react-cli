@@ -1,6 +1,7 @@
+import Vote from '@c/vote/Vote'
 const A1 = () => {
   return <div>
-    A1
+    <Vote />
   </div>
 }
 
