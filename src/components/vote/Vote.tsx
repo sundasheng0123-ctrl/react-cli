@@ -1,19 +1,10 @@
+import { useSelector } from 'react-redux'
 import VoteMain from "@c/vote/VoteMain"
 import VoteFooter from "@c/vote/VoteFooter"
-// import store from '@s/index'
-// import ThemeContext from "@/utils/useContext"
-import { connect } from 'react-redux'
+
 
 const Vote = (props: any) => {
-  const { supNum, oppNum } = props
-  // const { supNum, oppNum } = store.getState()
-  // const [_, setNum] = useState(0)
-  // const update = () => {
-  //   setNum(Math.random())
-  // }
-  // useEffect(() => {
-  //   return store.subscribe(update)
-  // }, [])
+  const { supNum, oppNum } = useSelector((state: any) => state.vote)
   return <div>
     Vote : { supNum + oppNum }
     <VoteMain />
@@ -21,4 +12,4 @@ const Vote = (props: any) => {
   </div>
 }
 
-export default connect((state: any) => state.vote)(Vote)
+export default Vote

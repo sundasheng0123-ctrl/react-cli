@@ -1,10 +1,14 @@
-import { createStore, Action, combineReducers, applyMiddleware } from 'redux'
-import logger from 'redux-logger'
-import { thunk } from 'redux-thunk'
-import reducers from './reducers'
+import { configureStore } from '@reduxjs/toolkit'
+import voteReducer from './features/voteSlice'
 
-const reducer = combineReducers(reducers)
+const store = configureStore({
+  reducer: {
+    vote: voteReducer
+  }
+})
 
-const store = createStore(reducer, undefined, applyMiddleware(logger, thunk))
+// 导出类型
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
 
 export default store

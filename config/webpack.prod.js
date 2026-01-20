@@ -1,7 +1,8 @@
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const TerserPlugin = require('terser-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin')
+const CompressionPlugin = require('compression-webpack-plugin');
+const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin')
 
 module.exports = merge(common, {
   mode: 'production',
@@ -63,6 +64,32 @@ module.exports = merge(common, {
     }
   },
   plugins: [
+    // 为框架文件添加 preload（高优先级预加载）
+    new PreloadWebpackPlugin({
+      rel: 'preload',
+      as(entry) {
+        if (/\.css$/.test(entry)) return 'style';
+        if (/\.woff$/.test(entry)) return 'font';
+        if (/\.png$/.test(entry)) return 'image';
+        return 'script';
+      },
+      include: 'allChunks',
+      // 只预加载框架文件
+      fileWhitelist: [/framework/]
+    }),
+    // 为其他文件添加 prefetch（低优先级预加载）
+    new PreloadWebpackPlugin({
+      rel: 'prefetch',
+      as(entry) {
+        if (/\.css$/.test(entry)) return 'style';
+        if (/\.woff$/.test(entry)) return 'font';
+        if (/\.png$/.test(entry)) return 'image';
+        return 'script';
+      },
+      include: 'allChunks',
+      // 排除框架文件，只对其他文件 prefetch
+      fileBlacklist: [/framework/, /\.map$/]
+    }),
     new CompressionPlugin({
       // 输出文件名格式，[path] 原路径，[base] 原文件名
       filename: '[path][base].gz',

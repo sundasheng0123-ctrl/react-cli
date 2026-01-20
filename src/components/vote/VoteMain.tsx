@@ -1,13 +1,10 @@
-// import { useContext, memo } from "react"
-// import ThemeContext from "@/utils/useContext"
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 const VoteMain = (props: any) => {
-  const { supNum, oppNum } = props
-  // const { supNum, oppNum } = store.getState()
+  const { supNum, oppNum } = useSelector((state: any) => state.vote)
   return <div>
     <div>支持数: {supNum}</div>
     <div>反对数: {oppNum}</div>
   </div>
 }
 
-export default connect((state: any) => state.vote)(VoteMain)
+export default VoteMain
